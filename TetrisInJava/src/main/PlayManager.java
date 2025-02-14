@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.*;
 
 import mino.Block;
@@ -16,6 +18,8 @@ public class PlayManager {
     final int MINO_START_X;
     final int MINO_START_Y;
 
+    public static int dropInterval = 60; // 1 second = 60 frames
+
     public PlayManager() {
 
         left_x = (GamePanel.WIDTH/2) - (WIDTH/2);
@@ -32,7 +36,7 @@ public class PlayManager {
     }
 
     public void update() {
-
+        currentMino.update();
     }
 
     public void draw(Graphics2D g2){
