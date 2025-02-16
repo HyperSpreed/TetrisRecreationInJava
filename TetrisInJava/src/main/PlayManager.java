@@ -1,10 +1,9 @@
 package main;
 
 import java.awt.*;
+import java.util.Random;
 
-import mino.Block;
-import mino.Mino;
-import mino.Mino_L1;
+import mino.*;
 
 public class PlayManager {
     final int WIDTH = 360;
@@ -30,9 +29,24 @@ public class PlayManager {
         MINO_START_X = left_x + (WIDTH/2) - Block.SIZE;
         MINO_START_Y = top_y + Block.SIZE;
 
-        currentMino = new Mino_L1();
+        currentMino = randomMino();
         currentMino.setXY(MINO_START_X, MINO_START_Y);
 
+    }
+
+    private Mino randomMino(){
+        Mino mino = null;
+        int i = new Random().nextInt(7);
+        switch (i){
+            case 0: mino = new Mino_L1(); break;
+            case 1: mino = new Mino_L2(); break;
+            case 2: mino = new Mino_T(); break;
+            case 3: mino = new Mino_Square(); break;
+            case 4: mino = new Mino_Z1(); break;
+            case 5: mino = new Mino_Z2(); break;
+            case 6: mino = new Mino_Bar(); break;
+        }
+        return mino;
     }
 
     public void update() {
