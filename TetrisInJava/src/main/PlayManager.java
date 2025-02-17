@@ -70,6 +70,15 @@ public class PlayManager {
         if (currentMino != null){
             currentMino.draw(g2);
         }
+
+        g2.setColor(Color.orange);
+        g2.setFont(new Font("Roboto", Font.BOLD, 42));
+        if (KeyHandler.pausePressed) {
+            x = left_x + 45;
+            y = top_y + 320;
+            g2.drawString("Game Paused",x,y);
+        }
+
     }
 
 }
