@@ -12,6 +12,8 @@ public class Mino {
     public int direction = 1; // There are a total of 4 directions (1/2/3/4)
     boolean leftCollision, rightCollision, downCollision;
     public boolean isActive = true;
+    public boolean deactivating;
+    int deactivationCounter = 0;
 
     int autoDropCounter = 0;
 
@@ -114,6 +116,19 @@ public class Mino {
 
     public void update(){
 
+        if (deactivating) {
+            deactivationCounter++;
+            if (deactivationCounter == 45){
+                deactivationCounter = 0;
+                checkMovementCollisions();
+
+                if (downCollision) {
+                    isActive = false;
+                }
+
+            }
+        }
+
         if (KeyHandler.upPressed) {
 
             switch (direction) {
@@ -175,7 +190,7 @@ public class Mino {
         }
 
         if (downCollision){
-            isActive = false;
+            deactivating = true;
         } else {
             autoDropCounter++;
 
