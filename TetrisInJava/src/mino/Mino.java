@@ -11,6 +11,7 @@ public class Mino {
     public Block tempB[] = new Block[4];
     public int direction = 1; // There are a total of 4 directions (1/2/3/4)
     boolean leftCollision, rightCollision, downCollision;
+    public boolean isActive = true;
 
     int autoDropCounter = 0;
 
@@ -40,6 +41,8 @@ public class Mino {
         rightCollision = false;
         downCollision = false;
 
+        checkStaticBlockCollision();
+
         //LeftCollision
         for (int i=0;i<b.length;i++){
             if (b[i].x == PlayManager.left_x){
@@ -66,6 +69,8 @@ public class Mino {
         leftCollision = false;
         rightCollision = false;
         downCollision = false;
+
+        checkStaticBlockCollision();
 
         //LeftCollision
         for (int i=0;i<b.length;i++){
@@ -169,16 +174,49 @@ public class Mino {
             KeyHandler.rightPressed = false;
         }
 
-        autoDropCounter++;
+        if (downCollision){
+            isActive = false;
+        } else {
+            autoDropCounter++;
 
-        if(autoDropCounter == PlayManager.dropInterval){
-            b[0].y += Block.SIZE;
-            b[1].y += Block.SIZE;
-            b[2].y += Block.SIZE;
-            b[3].y += Block.SIZE;
-            autoDropCounter = 0;
+            if(autoDropCounter == PlayManager.dropInterval){
+                b[0].y += Block.SIZE;
+                b[1].y += Block.SIZE;
+                b[2].y += Block.SIZE;
+                b[3].y += Block.SIZE;
+                autoDropCounter = 0;
+            }
         }
+    }
 
+    private void checkStaticBlockCollision(){
+        for (int i=0;i<PlayManager.staticBlocks.size();i++){
+
+            int targetX = PlayManager.staticBlocks.get(i).x;
+            int targetY = PlayManager.staticBlocks.get(i).y;
+
+            //check down
+            for (int j =0; j<b.length;j++){
+                if (b[j].y + Block.SIZE == targetY && b[j].x == targetX){
+                    downCollision = true;
+                }
+            }
+
+            //check left
+            for (int j = 0; j < b.length; j++) {
+                if (b[j].x - Block.SIZE == targetX && b[j].y == targetY) {
+                    leftCollision = true;
+                }
+            }
+
+            //check left
+            for (int j = 0; j < b.length; j++) {
+                if (b[j].x + Block.SIZE == targetX && b[j].y == targetY) {
+                    rightCollision = true;
+                }
+            }
+
+        }
     }
 
     public void draw(Graphics2D g2){
