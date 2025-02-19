@@ -10,6 +10,8 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
     Thread gameThread;
     PlayManager playManager;
+    public static Sound music = new Sound();
+    public static Sound soundEffect = new Sound();
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -25,6 +27,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void launchGame(){
         gameThread = new Thread(this);
         gameThread.start();
+
+        music.playMusic();
     }
 
     @Override
@@ -52,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     private void update(){
 
-        if (KeyHandler.pausePressed == false){
+        if (KeyHandler.pausePressed == false && playManager.gameOver == false){
             playManager.update();
         }
 

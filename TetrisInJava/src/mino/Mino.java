@@ -1,6 +1,7 @@
 package mino;
 
 
+import main.GamePanel;
 import main.KeyHandler;
 import main.PlayManager;
 
@@ -117,16 +118,7 @@ public class Mino {
     public void update(){
 
         if (deactivating) {
-            deactivationCounter++;
-            if (deactivationCounter == 45){
-                deactivationCounter = 0;
-                checkMovementCollisions();
-
-                if (downCollision) {
-                    isActive = false;
-                }
-
-            }
+            deactivatingM();
         }
 
         if (KeyHandler.upPressed) {
@@ -147,6 +139,7 @@ public class Mino {
             }
 
             KeyHandler.upPressed = false;
+            GamePanel.soundEffect.play(3,false);
 
         }
 
@@ -190,6 +183,10 @@ public class Mino {
         }
 
         if (downCollision){
+            if (deactivating == false){
+                GamePanel.soundEffect.play(4,false);
+
+            }
             deactivating = true;
         } else {
             autoDropCounter++;
@@ -231,6 +228,18 @@ public class Mino {
                 }
             }
 
+        }
+    }
+
+    private void deactivatingM(){
+        deactivationCounter++;
+        if (deactivationCounter == 45){
+            deactivationCounter = 0;
+            checkMovementCollisions();
+
+            if (downCollision) {
+                isActive = false;
+            }
         }
     }
 
